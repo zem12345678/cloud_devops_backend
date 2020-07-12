@@ -96,7 +96,7 @@ django-rest-framework-social-oauth2==1.1.0
 django-rest-swagger==2.2.0
 django-simple-history==2.10.0
 django-simpleui==4.0.2
-django-two-factor-auth==1.11.0
+django-two-factor-auth==1.12
 djangorestframework==3.10.1
 djangorestframework-jwt==1.11.0
 dnspython==1.16.0
