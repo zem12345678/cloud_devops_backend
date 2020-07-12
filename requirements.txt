@@ -72,7 +72,7 @@ defusedxml==0.6.0
 dictdiffer==0.8.1
 diff-match-patch==20181111
 distributed==1.21.8
-Django==2.1.4
+Django==2.2.13
 django-admin-list-filter-dropdown==1.0.2
 django-apscheduler==0.3.0
 django-braces==1.14.0
