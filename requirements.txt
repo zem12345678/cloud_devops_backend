@@ -278,7 +278,7 @@ pytz==2019.1
 PyWavelets==0.5.2
 pywin32==223
 pywinpty==0.5.1
-PyYAML==3.12
+PyYAML==5.1
 pyzmq==17.0.0
 qrcode==6.1
 QtAwesome==0.4.4
