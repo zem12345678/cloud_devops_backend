@@ -34,7 +34,7 @@ billiard==3.3.0.23
 bitarray==0.8.1
 bkcharts==0.2
 blaze==0.11.3
-bleach==2.1.3
+bleach==3.1.4
 bokeh==0.12.16
 boto==2.48.0
 Bottleneck==1.2.1
@@ -72,7 +72,7 @@ defusedxml==0.6.0
 dictdiffer==0.8.1
 diff-match-patch==20181111
 distributed==1.21.8
-Django==2.1.4
+Django==2.2.13
 django-admin-list-filter-dropdown==1.0.2
 django-apscheduler==0.3.0
 django-braces==1.14.0
@@ -96,7 +96,7 @@ django-rest-framework-social-oauth2==1.1.0
 django-rest-swagger==2.2.0
 django-simple-history==2.10.0
 django-simpleui==4.0.2
-django-two-factor-auth==1.11.0
+django-two-factor-auth==1.12
 djangorestframework==3.10.1
 djangorestframework-jwt==1.11.0
 dnspython==1.16.0
@@ -200,10 +200,10 @@ navigator-updater==0.2.1
 nbconvert==5.3.1
 nbformat==4.4.0
 networkx==2.1
-nltk==3.3
+nltk==3.4.5
 nmap==0.0.1
 nose==1.3.7
-notebook==5.5.0
+notebook==5.7.8
 numba==0.38.0
 numexpr==2.6.5
 numpy==1.18.1
@@ -240,7 +240,7 @@ ply==3.11
 promise==2.3
 prompt-toolkit==1.0.15
 protobuf==3.11.2
-psutil==5.4.5
+psutil==5.6.6
 psycopg2==2.8.5
 py==1.5.3
 pyasn1==0.4.8
@@ -278,7 +278,7 @@ pytz==2019.1
 PyWavelets==0.5.2
 pywin32==223
 pywinpty==0.5.1
-PyYAML==3.12
+PyYAML==5.1
 pyzmq==17.0.0
 qrcode==6.1
 QtAwesome==0.4.4
@@ -290,7 +290,7 @@ requests==2.22.0
 requests-oauthlib==1.3.0
 reversion==0.2
 rfc3986==1.3.2
-rope==0.10.7
+rope==0.11.0
 rsa==4.0
 ruamel-yaml==0.15.35
 ruamel.yaml.clib==0.2.0
@@ -325,7 +325,7 @@ tblib==1.3.2
 tencentcloud-sdk-python==3.0.200
 tensorboard==2.0.2
 tensorflow-estimator==2.0.1
-tensorflow-gpu==2.0.0
+tensorflow-gpu==2.0.1
 tensorflow-gpu-estimator==2.1.0
 termcolor==1.1.0
 terminado==0.8.1
@@ -356,7 +356,7 @@ wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.57.0
 websockets==5.0.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 Whoosh==2.7.4
 widgetsnbextension==3.2.1
 win-inet-pton==1.0.1
