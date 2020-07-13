@@ -1,0 +1,44 @@
+2020-04-15 17:38:32,404 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:38:38,458 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:38:44,549 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:38:50,629 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:38:56,678 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:02,754 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:08,833 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:14,904 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:20,950 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:27,063 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:33,092 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:39,113 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:45,148 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:51,164 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:39:57,205 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:03,248 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:09,287 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:15,362 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:21,403 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:27,732 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:33,812 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:39,854 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:45,888 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:52,133 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:40:58,171 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:04,222 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:10,286 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:16,371 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:22,417 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:28,480 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:34,547 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:40,669 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:46,730 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:52,793 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:41:58,853 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:42:04,936 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:55:10,277 DEBUG    MainThread /Users/lanyulei/projects/web/bsc/agent/core/executor.py[38] -- execute task-1
+2020-04-15 17:55:10,335 DEBUG    MainThread /Users/lanyulei/projects/web/bsc/agent/core/executor.py[54] -- execute task-1 exit with 0
+2020-04-15 17:57:56,434 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 17:58:11,575 DEBUG    MainThread /Users/lanyulei/projects/web/bsc/agent/core/executor.py[38] -- execute task-1
+2020-04-15 17:58:11,584 DEBUG    MainThread /Users/lanyulei/projects/web/bsc/agent/core/executor.py[54] -- execute task-1 exit with 0
+2020-04-15 18:02:46,403 ERROR    dispatch /Users/lanyulei/projects/web/bsc/agent/core/worker.py[66] -- exec error [Errno 54] Connection reset by peer
+2020-04-15 18:02:49,432 ERROR    supervisor /Users/lanyulei/projects/web/bsc/agent/core/worker.py[105] -- connect to master 127.0.0.1:10052 error: [Errno 61] Connection refused
+2020-04-15 18:02:49,440 ERROR    supervisor /Users/lanyulei/projects/web/bsc/agent/core/worker.py[93] -- send message error: I/O operation on closed file.

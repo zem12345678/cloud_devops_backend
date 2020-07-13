@@ -1,4 +1,4 @@
-# @Time    : 2019/4/24 13:00
+# @Time    : 2020/4/24 13:00
 # @Author  : ZhangEnmin
 from rest_framework.viewsets import ModelViewSet
 from ..models import DeviceGroup
