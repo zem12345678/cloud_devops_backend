@@ -8,10 +8,10 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import  Celery
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'clouddevops.settings') # 设置django环境
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cloud_devops_backend.settings') # 设置django环境
 
 from django.conf import settings
-app = Celery('clouddevops')
+app = Celery('cloud_devops_backend')
 
 app.config_from_object('django.conf:settings')
 
