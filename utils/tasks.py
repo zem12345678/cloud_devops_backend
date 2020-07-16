@@ -2,9 +2,9 @@
 import smtplib
 from celery import Celery, platforms
 from email.mime.text import MIMEText
-
+from cloud_devops_backend.settings import REDIS_PASSWORD
 platforms.C_FORCE_ROOT = True  # 防止启动报错：C_FORCE_ROOT environment ...
-celery = Celery('tasks', broker='redis://127.0.0.1:6379/1')
+celery = Celery('tasks', broker='redis://:{}@127.0.0.1:6379/1'.format(REDIS_PASSWORD))
 mail_host = "email.aaa.com"  #设置服务器
 mail_user = "user1"    #用户名
 mail_pass = "passwd1"   #密码

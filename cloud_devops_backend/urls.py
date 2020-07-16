@@ -62,7 +62,7 @@ urlpatterns = [
     path(r'', include('servicetree.urls')),
     path(r'', include(router.urls)),
     path(r'salt/', include('salt.urls')),
-    path('xadmin/', xadmin.site.urls),
+    # path('xadmin/', xadmin.site.urls),
     path('ueditor/', include('DjangoUeditor.urls')),
     path(r'admin/', admin.site.urls),
     path(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),

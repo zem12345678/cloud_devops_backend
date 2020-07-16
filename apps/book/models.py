@@ -14,6 +14,7 @@ class Publish(models.Model):
     class Meta:
         verbose_name = '出版商信息'
         verbose_name_plural = verbose_name
+        app_label = 'book'
     
     def __str__(self):
         return self.name
@@ -33,6 +34,7 @@ class Author(models.Model):
     class Meta:
         verbose_name = '作者信息'
         verbose_name_plural = verbose_name
+        app_label = 'book'
 
     def __str__(self):
         return self.name
@@ -55,6 +57,7 @@ class Book(models.Model):
         verbose_name = '图书信息'
         verbose_name_plural = verbose_name
         ordering = ['-publication_date']
+        app_label = 'book'
 
     def __str__(self):
         return self.name

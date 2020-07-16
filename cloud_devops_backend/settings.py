@@ -37,6 +37,40 @@ DOMAIN = "zhangenmin888@gmail.com"
 
 # Application definition
 
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
+    'corsheaders',
+    'django_apscheduler',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
+    'djcelery',
+    'haystack',
+    'channels',
+    'rbac',
+    'cmdb',
+    'book',
+    'clouds',
+    'deployment',
+    'resources',
+    'workorder',
+    'sqlmng',
+    'release',
+    'autotask',
+    'salt',
+    'servicetree',
+    'task',
+    'zabbix',
+    ]
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',#跨域
     'django.middleware.security.SecurityMiddleware',
@@ -126,18 +160,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cloud_devops',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'USER': 'root',
         'PASSWORD': '123456',
-        'PORT': '3306',
+        'PORT': '3307',
         'OPTIONS': { 'init_command': 'SET default_storage_engine=INNODB;' }
     },
     "zabbix": {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'zabbix',
         'USER': 'root',
-        'PASSWORD': "123456",
-        'HOST': "127.0.0.1",
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET default_storage_engine=INNODB;SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -148,6 +183,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
+        'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET default_storage_engine=INNODB;SET sql_mode='STRICT_TRANS_TABLES'"
         },
@@ -240,7 +276,7 @@ REST_FRAMEWORK = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis:///127.0.0.1:6379/0",
+        "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": "VgOK8WctTOEtM2"
@@ -271,10 +307,10 @@ ACCCESSKEYID = os.environ.get("ACCCESSKEYID", '')
 ACCESSSECRET = os.environ.get("ACCESSSECRET", '')
 
 # redis 设置
-REDIS_HOST = 'localhost'
-REDIS_PORT = 16379
-REDIS_DB = 0
-REDIS_PASSWORD = None
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 8
+REDIS_PASSWORD = 'VgOK8WctTOEtM2'
 
 # zabbix 设置
 ZABBIX_API = "http://192.168.1.1/zabbix/"
@@ -295,7 +331,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, REDIS_PORT)],
+            "hosts": ["redis://:{}@{}:{}/{}".format(REDIS_PASSWORD,REDIS_HOST,REDIS_PORT,REDIS_DB)],
         },
     },
 }
@@ -369,7 +405,7 @@ REST_FRAMEWORK_EXTENSIONS = {
 
 djcelery.setup_loader()
 BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672/my_vhost'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1' # BACKEND配置，这里使用redis
+CELERY_RESULT_BACKEND = 'redis://:{}@127.0.0.1:6379/1'.format(REDIS_PASSWORD) # BACKEND配置，这里使用redis
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERYCELERY_ACCEPT_CONTENT = ['pickle', 'json']
 CELERYD_CONCURRENCY = 8                                          # 并发worker数
