@@ -38,6 +38,7 @@ DOMAIN = "zhangenmin888@gmail.com"
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -94,12 +95,6 @@ CORS_ORIGIN_WHITELIST = (           #白名单
     'http://localhost:8000',
     'http://localhost:8080',
 )
-
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:3000',
-#     'http://localhost:8000',
-#     'http://localhost:8080',
-# ]
 
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -209,9 +204,14 @@ DATABASE_APPS_MAPPING = {
     # 'default': 'default',
     'admin':'default',
     'xadmin':'default',
+    'sessions':'default',
+    'contenttypes':'default',
+    'django_apscheduler':'default',
+    'otp_static':'default',
+    'otp_totp':'default',
+    'two_factor':'default',
     'djcelery':'default',
     'auth':'default',
-    'contenttypes':'default',
     'book':'default',
     'rbac':'default',
     'cmdb':'default',

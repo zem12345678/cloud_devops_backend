@@ -13,8 +13,8 @@ books_router = DefaultRouter()
 # books_router.register(r'aut',AuthorViewSets)
 # books_router.register(r'boo',BookViewSets)
 
-books_router.register(r'publish', PublishViewSet)
-books_router.register(r'author', AuthorViewSet)
-books_router.register(r'book', BookViewSet)
+books_router.register(r'books/publish', PublishViewSet)
+books_router.register(r'books/author', AuthorViewSet)
+books_router.register(r'books/book', BookViewSet)
 
 
