@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'djcelery',
     'haystack',
     'channels',
+    'mongoengine',
     'rbac',
     'cmdb',
     'book',

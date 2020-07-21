@@ -38,7 +38,7 @@ from resources.router import resources_router
 from clouds.router import clouds_router
 from release.router import deploy_router
 from servicetree.router import servicetree_router
-# from autotask.router import task_router
+from autotask.router import task_router
 
 schema_view = get_schema_view(title='API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 router = DefaultRouter()
@@ -52,7 +52,7 @@ router.registry.extend(sqlmng_router.registry)
 router.registry.extend(resources_router.registry)
 router.registry.extend(clouds_router.registry)
 router.registry.extend(deploy_router.registry)
-# router.registry.extend(task_router.registry)
+router.registry.extend(task_router.registry)
 router.registry.extend(servicetree_router.registry)
 
 urlpatterns = [
