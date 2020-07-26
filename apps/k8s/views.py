@@ -1,16 +1,17 @@
 import logging
-from django.shortcuts import render, HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, View, DetailView, CreateView, UpdateView
+from rest_framework import viewsets
+from rest_framework import mixins
 from k8s.k8sApi.core import K8sApi
+from cloud_devops_backend.basic import OpsResponse
 
 logger = logging.getLogger('k8s')
 
 
-class K8sNodeListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+class K8sNodeListView(viewsets.GenericViewSet,mixins.ListModelMixin):
     permission_required = ('k8s.view_ecs',)
 
-    def get(self, request):
+    def list(self, request, *args, **kwargs):
         obj = K8sApi()
         ret = obj.get_node_list()
         data = {}
@@ -21,13 +22,13 @@ class K8sNodeListView(LoginRequiredMixin, PermissionRequiredMixin, View):
                                      "kubelet_version": i.status.node_info.kubelet_version,
                                      "os_image": i.status.node_info.os_image,
                                      }
-        return render(request, "k8s/k8s-node-list.html", {"data": data})
+        return OpsResponse(data=data)
 
 
-class K8sServiceListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class K8sServiceListView(viewsets.GenericViewSet,mixins.ListModelMixin):
     permission_required = ('k8s.view_ecs',)
 
-    def get(self, request):
+    def list(self, request, *args, **kwargs):
         obj = K8sApi()
         ret = obj.get_service_list()
         data = {}
@@ -39,36 +40,45 @@ class K8sServiceListView(LoginRequiredMixin, PermissionRequiredMixin, View):
             data[i.metadata.name] = {"name": i.metadata.name, "cluster_ip": i.spec.cluster_ip, "type": i.spec.type,
                                      "external_i_ps": i.spec.external_i_ps,
                                      "port": ports}
-        return render(request, "k8s/k8s-service-list.html", {"data": data})
+        return OpsResponse(data=data)
 
 
-class K8sPodListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+class K8sPodListView(viewsets.GenericViewSet,mixins.ListModelMixin,mixins.RetrieveModelMixin):
     permission_required = ('k8s.view_ecs',)
 
-    def get(self, request):
+    def list(self, request, *args, **kwargs):
         obj = K8sApi()
         ret = obj.get_pod_list()
         data = {}
         for i in ret.items:
             data[i.metadata.name] = {"ip": i.status.pod_ip, "namespace": i.metadata.namespace}
-        return render(request, "k8s/k8s-pod-list.html", {"data": data})
+        return OpsResponse(data=data)
 
-
-class K8sPodWebssh(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ('k8s.view_ecs',)
-
-    def get(self, request):
-        name = self.request.GET.get("name")
-        namespace = self.request.GET.get("namespace")
-        return render(request, "k8s/k8s-pod-webssh.html", {"name": name, "namespace": namespace})
-
-
-class K8sPodDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ('k8s.view_ecs',)
-
-    def get(self, request):
+    def retrieve(self, request, *args, **kwargs):
         name = self.request.GET.get("name")
         namespace = self.request.GET.get("namespace")
         obj = K8sApi()
         data = obj.get_pod_detail(name, namespace)
-        return render(request, "k8s/k8s-pod-detail.html", {"name": name, "namespace": namespace, "data": data})
+        return OpsResponse(data={"name": name, "namespace": namespace, "data": data})
+
+
+
+class K8sPodWebSsh(viewsets.GenericViewSet,mixins.RetrieveModelMixin):
+    permission_required = ('k8s.view_ecs',)
+
+    def retrieve(self, request, *args, **kwargs):
+        name = self.request.GET.get("name")
+        namespace = self.request.GET.get("namespace")
+        return OpsResponse(data={"name": name, "namespace": namespace})
+
+
+# class K8sPodDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
+#     permission_required = ('k8s.view_ecs',)
+#
+#     def get(self, request):
+#         name = self.request.GET.get("name")
+#         namespace = self.request.GET.get("namespace")
+#         obj = K8sApi()
+#         data = obj.get_pod_detail(name, namespace)
+#         return render(request, "k8s/k8s-pod-detail.html", {"name": name, "namespace": namespace, "data": data})

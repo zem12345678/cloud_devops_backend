@@ -196,12 +196,10 @@ class AdminSite(object):
         ``never_cache`` decorator. If the view can be safely cached, set
         cacheable=True.
         """
-
         def inner(request, *args, **kwargs):
             if not self.has_permission(request) and getattr(view, 'need_site_permission', True):
                 return self.create_admin_view(self.login_view)(request, *args, **kwargs)
             return view(request, *args, **kwargs)
-
         if not cacheable:
             inner = never_cache(inner)
         return update_wrapper(inner, view)
@@ -237,7 +235,6 @@ class AdminSite(object):
                         '%s%s' % (''.join([oc.__name__ for oc in option_classes]), plugin_class.__name__),
                         tuple(bases), attrs)
             return plugin_class
-
         return merge_class
 
     def get_plugins(self, admin_view_class, *option_classes):
@@ -295,7 +292,6 @@ class AdminSite(object):
         def wrap(view, cacheable=False):
             def wrapper(*args, **kwargs):
                 return self.admin_view(view, cacheable)(*args, **kwargs)
-
             wrapper.admin_site = self
             return update_wrapper(wrapper, view)
 
@@ -345,8 +341,7 @@ class AdminSite(object):
         This takes into account the USE_I18N setting. If it's set to False, the
         generated JavaScript will be leaner and faster.
         """
-        return JavaScriptCatalog.as_view(packages=['django.contrib.admin'])(request)
-
+        return JavaScriptCatalog.as_view(packages=['django.contrib.admin', 'xadmin'])(request)
 
 # This global object represents the default admin site, for the common case.
 # You can instantiate AdminSite in your own code to create a custom admin site.
@@ -354,7 +349,7 @@ site = AdminSite()
 
 
 def register(models, **kwargs):
+
     def _model_admin_wrapper(admin_class):
         site.register(models, admin_class)
-
     return _model_admin_wrapper

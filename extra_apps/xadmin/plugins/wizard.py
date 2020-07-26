@@ -3,10 +3,16 @@ from collections import OrderedDict
 from django import forms
 from django.db import models
 from django.template import loader
+try:
+    from formtools.wizard.storage import get_storage
+    from formtools.wizard.forms import ManagementForm
+    from formtools.wizard.views import StepsHelper
+except:
+    # work for django<1.8
+    from django.contrib.formtools.wizard.storage import get_storage
+    from django.contrib.formtools.wizard.forms import ManagementForm
+    from django.contrib.formtools.wizard.views import StepsHelper
 
-from formtools.wizard.storage import get_storage
-from formtools.wizard.forms import ManagementForm
-from formtools.wizard.views import StepsHelper
 from django.utils.encoding import smart_text
 from django.utils.module_loading import import_string
 from django.forms import ValidationError

@@ -39,6 +39,7 @@ from clouds.router import clouds_router
 from release.router import deploy_router
 from servicetree.router import servicetree_router
 from autotask.router import task_router
+from k8s.router import k8s_router
 
 schema_view = get_schema_view(title='API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 router = DefaultRouter()
@@ -54,6 +55,7 @@ router.registry.extend(clouds_router.registry)
 router.registry.extend(deploy_router.registry)
 router.registry.extend(task_router.registry)
 router.registry.extend(servicetree_router.registry)
+router.registry.extend(k8s_router.registry)
 
 urlpatterns = [
     # path(r'', include('cmdb.urls')),
@@ -62,7 +64,7 @@ urlpatterns = [
     path(r'', include('servicetree.urls')),
     path(r'', include(router.urls)),
     path(r'salt/', include('salt.urls')),
-    # path('xadmin/', xadmin.site.urls),
+    path('xadmin/', xadmin.site.urls),
     path('ueditor/', include('DjangoUeditor.urls')),
     path(r'admin/', admin.site.urls),
     path(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),

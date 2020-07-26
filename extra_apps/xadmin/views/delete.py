@@ -40,7 +40,7 @@ class DeleteAdminView(ModelAdminView):
         # will also be deleted.
         if django_version > (2, 1):
             (self.deleted_objects, model_count, self.perms_needed, self.protected) = get_deleted_objects(
-                [self.obj], self.opts, self.admin_site)
+                [self.obj], self, self.admin_site)
         else:
             (self.deleted_objects, model_count, self.perms_needed, self.protected) = get_deleted_objects(
                 [self.obj], self.opts, self.request.user, self.admin_site, using)
@@ -63,8 +63,7 @@ class DeleteAdminView(ModelAdminView):
         self.delete_model()
 
         response = self.post_response()
-        cls_str = str
-        if isinstance(response, cls_str):
+        if isinstance(response, str):
             response = HttpResponseRedirect(response)
         return response
 

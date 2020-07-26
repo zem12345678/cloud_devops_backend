@@ -3,15 +3,15 @@
 # @FileName: routing.py
 # @Software: PyCharm
 
-from websocket.jwt_auth import TokenAuthMiddleware
+from webSocket.jwt_auth import TokenAuthMiddleware
 from channels.routing import URLRouter, ProtocolTypeRouter
 from django.urls import path
-from websocket.consumers.console import ConsoleMsgConsumer
+from webSocket.consumers.console import ConsoleMsgConsumer
 
 application = ProtocolTypeRouter({
-    "websocket": TokenAuthMiddleware(
+    "webSocket": TokenAuthMiddleware(
         URLRouter([
-            path(r"websocket/console", ConsoleMsgConsumer),
+            path(r"webSocket/console", ConsoleMsgConsumer),
         ])
     )
 })

@@ -1,5 +1,5 @@
 from kubernetes import client, config
-from seal import settings
+from cloud_devops_backend import settings
 import urllib3
 from kubernetes.stream import stream
 

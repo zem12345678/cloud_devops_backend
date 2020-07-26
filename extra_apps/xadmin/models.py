@@ -38,7 +38,6 @@ def add_view_permissions(sender, **kwargs):
                                       name="Can view %s" % content_type.name)
             # print "Added view permission for %s" % content_type.name
 
-
 # check for all our view permissions after a syncdb
 post_migrate.connect(add_view_permissions)
 

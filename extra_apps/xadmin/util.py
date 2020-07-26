@@ -20,7 +20,6 @@ from django import VERSION as version
 import datetime
 import decimal
 
-
 from django.templatetags.static import static
 
 try:
@@ -41,7 +40,6 @@ def xstatic(*tags):
     fs = []
     lang = get_language()
 
-    cls_str = str
     for tag in tags:
         try:
             for p in tag.split('.'):
@@ -56,7 +54,7 @@ def xstatic(*tags):
             else:
                 raise e
 
-        if isinstance(node, cls_str):
+        if isinstance(node, str):
             files = node
         else:
             mode = 'dev'
@@ -126,8 +124,7 @@ def quote(s):
     quoting is slightly different so that it doesn't get automatically
     unquoted by the Web browser.
     """
-    cls_str = str
-    if not isinstance(s, cls_str):
+    if not isinstance(s, str):
         return s
     res = list(s)
     for i in range(len(res)):
@@ -141,8 +138,7 @@ def unquote(s):
     """
     Undo the effects of quote(). Based heavily on urllib.unquote().
     """
-    cls_str = str
-    if not isinstance(s, cls_str):
+    if not isinstance(s, str):
         return s
     mychr = chr
     myatoi = int
