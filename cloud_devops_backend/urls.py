@@ -18,6 +18,8 @@ from django.urls import path,re_path
 from django.conf.urls import include
 from django.conf.urls.static import serve
 
+from graphene_django.views import GraphQLView
+from .schema import schema
 from cloud_devops_backend.settings import MEDIA_ROOT
 from cloud_devops_backend.settings import STATIC_ROOT
 
@@ -74,6 +76,7 @@ urlpatterns = [
     path(r'docs/', include_docs_urls("开源自动化运维云管理平台")),
     re_path('static/(?P<path>.*)', serve, {"document_root": STATIC_ROOT }),
     re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT }),
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema))
 
 
 ]

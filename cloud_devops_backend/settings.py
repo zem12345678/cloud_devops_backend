@@ -16,6 +16,11 @@ import datetime
 from past.builtins import execfile
 from mongoengine import connect
 import djcelery
+from celery import platforms
+from celery.schedules import crontab
+from kombu import Queue
+from kombu import Exchange
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -81,6 +86,11 @@ INSTALLED_APPS = [
     'task',
     'autotask',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'cloud_devops_backend.schema.schema'
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',#跨域
@@ -420,11 +430,52 @@ CELERY_RESULT_BACKEND = 'redis://:{}@127.0.0.1:6379/1'.format(REDIS_PASSWORD) # 
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERYCELERY_ACCEPT_CONTENT = ['pickle', 'json']
 CELERYD_CONCURRENCY = 8                                          # 并发worker数
+CELERY_TIMEZONE = TIME_ZONE
 CELERYD_FORCE_EXECV = True                                       # 非常重要,有些情况下可以防止死锁
 CELERYD_MAX_TASKS_PER_CHILD = 100    # 每个worker最多执行100个任务就会被销毁，可防止内存泄露
 CELERY_DISABLE_RATE_LIMITS = True    # 任务发出后，经过一段时间还未收到acknowledge , 就将任务重新交给其他worker执行
 CELERYD_TASK_TIME_LIMIT = 15 * 60 # 任务超时时间
 CELERY_ACKS_LATE = True
+# 设置默认不存结果
+# CELERY_IGNORE_RESULT = True
+CELERY_CREATE_MISSING_QUEUES = True
+CELERYD_TASK_SOFT_TIME_LIMIT = 900
+CELERY_TASK_RESULT_EXPIRES = 86400
+CELERY_ENABLE_UTC = True
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_QUEUES = (
+    Queue('low', Exchange('low', type='direct')),
+    Queue('high', Exchange('high', type='direct')),
+)
+
+class MyRouter(object):
+    def route_for_task(self, task, args=None, kwargs=None):
+
+        if task.startswith('deploy'):
+            return {
+                'queue': 'high',
+            }
+        else:
+            return {'queue': 'low'}
+
+
+CELERY_ROUTES = (MyRouter(),)
+
+# 定时任务
+CELERYBEAT_SCHEDULE = {
+    'minion_status_task': {
+        'task': 'salt.tasks.minion_status',
+        # 'schedule': crontab(minute=u'40', hour=u'17',),
+        'schedule': timedelta(seconds=60),
+        'args': (),
+        'options': {
+            'queue': 'low',  # 指定要使用的队列
+        }
+    }
+}
+
 
 ## K8S
 Token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTVreHZoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmN2I0NWI3Zi03ZGFhLTQ0YjktYTgwMi1iMTRjMzFjODRlYzAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.mEOC6RqNyriOnnrt2D7aePzvDXkUj0SqlneHVJe8fss_VD06t9bm7Z9kSkoPXulOIzXetfRl6hhlplZDxkleyha1Gw1X1HIP3gDmOX6paOhgQfK5o6uEYsk3i42sIyRAWCdpIRnkdXCLJgv13IyLQgYF_eRgjznNpPr-IKDKAM8dc53vMh1L6r0Mf-rVschuSP71fwaczMVLHN09LZpjCja836aSYqgsG6Xp9uwxtgM78-BbiGt2fKEVqPqb3oDHCrV-jxi70r4b-kYJE5zq_2VT832u-E4vSTeb89ciuqxcCVza6CfdTN-dN8u3ZN1yFXuvmgIEklh_hcSuPquYXQ"
