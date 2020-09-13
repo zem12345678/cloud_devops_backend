@@ -9,18 +9,18 @@ from salt.api import SaltAPI
 from salt.models import MinionsStatus
 
 logger = logging.getLogger("error")
-pathname = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, pathname)
-sys.path.insert(0, os.path.abspath(os.path.join(pathname, '../..')))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cloud_devops_backend.settings")
-importlib.reload(sys)
-django.setup()
+# pathname = os.path.dirname(os.path.abspath(__file__))
+# sys.path.insert(0, pathname)
+# sys.path.insert(0, os.path.abspath(os.path.join(pathname, '../..')))
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cloud_devops_backend.settings")
+# importlib.reload(sys)
+# django.setup()
 
-from celery import Celery
-from cloud_devops_backend.settings import BROKER_URL, CELERY_RESULT_BACKEND
-
-app = Celery('task', broker=BROKER_URL, backend=CELERY_RESULT_BACKEND)
-
+# from celery import Celery
+# from cloud_devops_backend.settings import BROKER_URL, CELERY_RESULT_BACKEND
+#
+# app = Celery('task', broker=BROKER_URL, backend=CELERY_RESULT_BACKEND)
+from cloud_devops_backend.celery import app
 
 @app.task
 def minion_status():

@@ -50,7 +50,6 @@ class PublishList(APIView):
         publish = PublishSerializer(data=request.data)
         print(publish)
         if publish.is_valid():
-            print("1111")
             publish.save()
             return Response(publish.data,status=200)
         return Response(publish.data, status=400)
@@ -83,9 +82,7 @@ class PublishDetail(APIView):
         publish = self.get_object(pk)
         serializer = PublishSerializer(publish, request.data)
         if serializer.is_valid():
-            print("1111")
             serializer.save()
-            print("3333")
             return Response(serializer.data,status=200)
         return Response(serializer.data, status=400)
 

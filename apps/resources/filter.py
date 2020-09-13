@@ -7,7 +7,7 @@ class ManufacturerFilter(django_filters.rest_framework.FilterSet):
     """
     制造商滤类
     """
-    vendor_name = django_filters.CharFilter(filed_name="vendor_name", lookup_expr="icontains")
+    vendor_name = django_filters.CharFilter(field_name="vendor_name", lookup_expr="icontains")
 
     class Meta:
         model  = Manufacturer
