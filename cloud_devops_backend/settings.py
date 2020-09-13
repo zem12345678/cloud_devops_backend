@@ -221,6 +221,7 @@ DATABASE_APPS_MAPPING = {
     'otp_totp':'default',
     'two_factor':'default',
     'djcelery':'default',
+    'social_django':'default',
     'auth':'default',
     'book':'default',
     'rbac':'default',
@@ -462,30 +463,30 @@ SOCIAL_AUTH_WEIXIN_KEY = 'foobar'
 SOCIAL_AUTH_WEIXIN_SECRET = 'bazqux'
 
 # sentry设置
-import os
-import raven
-
-RAVEN_CONFIG = {
-    'dsn': 'https://<key>:<secret>@sentry.io/<project>',
-}
-X_FRAME_OPTIONS = 'sameorigin'
-REMOTE_DEBUG = False
-PROJECT_ROOT = os.path.join(BASE_DIR, 'cloud_devops_backend')
-if DEBUG and REMOTE_DEBUG:
-    try:
-        execfile(os.path.join(PROJECT_ROOT, 'dev_settings.py'))
-    except IOError:
-        pass
-elif DEBUG:
-    try:
-        execfile(os.path.join(PROJECT_ROOT, 'local_settings.py'))
-    except IOError:
-        pass
-else:
-    try:
-        execfile(os.path.join(PROJECT_ROOT, 'dev_settings.py'))
-    except IOError:
-        pass
+# import os
+# import raven
+#
+# RAVEN_CONFIG = {
+#     'dsn': 'https://<key>:<secret>@sentry.io/<project>',
+# }
+# X_FRAME_OPTIONS = 'sameorigin'
+# REMOTE_DEBUG = False
+# PROJECT_ROOT = os.path.join(BASE_DIR, 'cloud_devops_backend')
+# if DEBUG and REMOTE_DEBUG:
+#     try:
+#         execfile(os.path.join(PROJECT_ROOT, 'dev_settings.py'))
+#     except IOError:
+#         pass
+# elif DEBUG:
+#     try:
+#         execfile(os.path.join(PROJECT_ROOT, 'local_settings.py'))
+#     except IOError:
+#         pass
+# else:
+#     try:
+#         execfile(os.path.join(PROJECT_ROOT, 'dev_settings.py'))
+#     except IOError:
+#         pass
 
 #jwt setting
 JWT_AUTH = {

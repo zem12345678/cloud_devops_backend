@@ -357,5 +357,4 @@ class DeployExcu(Task):
             redis.set('deploy_' + str(webuser) + '_' + str(id), '1')
 
 
-# deploy = app.register_task(DeployExcu())
-deploy = app.send_task(DeployExcu())
+deploy = app.register_task(DeployExcu())
