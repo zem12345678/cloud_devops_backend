@@ -47,7 +47,7 @@ class ActionMxins(AppellationMixins, object):
         sqlobj.save()
 
     def check_execute_sql(self, db_id, sql_content):
-        dbobj = Dbconf.objects.get(id = db_id)
+        dbobj = DbConf.objects.get(id = db_id)
         db_addr = self.get_db_addr(dbobj.user, dbobj.password, dbobj.host, dbobj.port, self.action_type)  # 根据数据库名 匹配其地址信息，"--check=1;" 只审核
         sql_review = inception.table_structure(db_addr, dbobj.name, sql_content)  # 审核
         result, status = sql_review.get('result'), sql_review.get('status')

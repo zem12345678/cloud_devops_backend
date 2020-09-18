@@ -1,6 +1,6 @@
 #coding=utf8
 from rest_framework import permissions
-from sqlmng.models import Inceptsql
+from sqlmng.models import InceptionWorkOrder
 from utils.basemixins import AppellationMixins
 
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
@@ -23,7 +23,7 @@ class AuthOrReadOnly(AppellationMixins, permissions.BasePermission):
         if uri not in self.allperms:  # 非动作的操作（查询类的）
             return True
         pk = uri_list[-3]
-        sqlobj = Inceptsql.objects.get(pk = pk)
+        sqlobj = InceptionWorkOrder.objects.get(pk = pk)
         if sqlobj.env == self.env_test:  # 测试环境
             return True
         return uri in self.auths[request.user.role] or request.user.is_superuser  # 用户的身份有操作权限 or 是超级用户

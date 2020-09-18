@@ -88,6 +88,8 @@ class UserProfile(AbstractUser):
     position = models.CharField(max_length=50, null=True, blank=True, verbose_name="职位")
     superior = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="上级主管")
     roles = models.ManyToManyField("Role", verbose_name="角色", blank=True)
+    id_rsa_key = models.TextField(null=True)
+    id_rsa_pub = models.TextField(null=True)
 
     class Meta:
         verbose_name = "用户信息"

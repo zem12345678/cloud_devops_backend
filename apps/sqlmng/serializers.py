@@ -14,7 +14,7 @@ class InceptionSerializer(serializers.ModelSerializer):
     users = serializers.CharField(required=False)
 
     class Meta:
-        model = Inceptsql
+        model = InceptionWorkOrder
         fields = '__all__'
 
     def to_representation(self, instance):
@@ -25,7 +25,7 @@ class InceptionSerializer(serializers.ModelSerializer):
         return ret
 
     def create(self, validated_data):
-        validated_data['db'] = Dbconf.objects.get(id = validated_data['db'])
+        validated_data['db'] = DbConf.objects.get(id = validated_data['db'])
         treater = UserProfile.objects.get_or_create(username = validated_data.get('treater'))[0]  # 经理数据
         commiter = validated_data.get('commiter')
         validated_data['treater'] = treater.username
@@ -37,7 +37,7 @@ class InceptionSerializer(serializers.ModelSerializer):
 class DbSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Dbconf
+        model = DbConf
         fields = '__all__'
 
     def create(self, validated_data):

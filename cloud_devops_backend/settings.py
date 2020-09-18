@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'servicetree',
     'task',
     'autotask',
+    'workflow'
 ]
 
 GRAPHENE = {
@@ -247,8 +248,9 @@ DATABASE_APPS_MAPPING = {
     'salt':'default',
     'servicetree':'default',
     'task':'default',
-    'zabbix': 'zabbix',
-    'k8s':  'container',
+    'zabbix':'zabbix',
+    'k8s':'container',
+    'workflow':'default',
     'test':'test'
 
 }
