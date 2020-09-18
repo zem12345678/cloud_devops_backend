@@ -4,7 +4,8 @@ import urllib.parse
 import json
 import requests
 from cloud_devops_backend.settings import SALT_PASSWORD, SALT_USER, SALT_URL
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 class SaltAPI(object):
     __token_id = ''
 
@@ -12,7 +13,7 @@ class SaltAPI(object):
         self.__url = SALT_URL
         self.__user = SALT_USER
         self.__password = SALT_PASSWORD
-        self.__token_id = self.get_token_id()
+        self.__token_id = "9d4b94d18d39f9cef10bdb8817ac154eef52a67a"
 
     def get_token_id(self):
         # user login and get token id

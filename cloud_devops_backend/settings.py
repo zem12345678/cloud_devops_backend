@@ -162,7 +162,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cloud_devops_backend.wsgi.application'
-
+# 配置ASGI
+ASGI_APPLICATION = "cloud_devops_backend.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -334,15 +335,15 @@ REDIS_DB = 8
 REDIS_PASSWORD = 'VgOK8WctTOEtM2'
 
 # zabbix 设置
-ZABBIX_API = "http://192.168.1.1/zabbix/"
+ZABBIX_API = "http://192.168.1.132/zabbix/"
 ZABBIX_ADMIN_USER = "Admin"
 ZABBIX_ADMIN_PASS = "zabbix"
 ZABBIX_DEFAULT_HOSTGROUP = "2"
 
 # salt_api 设置
-SALT_URL = 'http://192.168.1.58:8000'
+SALT_URL = 'https://192.168.222.132:8100'
 SALT_USER = 'saltapi'
-SALT_PASSWORD = 'Boss2018salt'
+SALT_PASSWORD = 'saltapi'
 
 # 需要过滤掉的网卡设备名
 FILTER_NETWORK_DEVICE = ["docker", "veth", "tun", "sit", "br"]
@@ -371,9 +372,6 @@ HAYSTACK_CONNECTIONS = {
 # 当添加、修改、删除数据时，自动生成索引  es自动重建索引
 # 保证了在Django运行起来后，有新的数据产生时，haystack仍然可以让Elasticsearch实时生成新数据的索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-# 配置ASGI
-ASGI_APPLICATION = "cloud_devops_backend.routing.application"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
