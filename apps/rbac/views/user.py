@@ -373,3 +373,16 @@ class UserListView(ListAPIView):
     ordering_fields = ('id',)
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+
+# class UserInfoViewset(viewsets.ViewSet):
+#     """
+#     获取当前登陆的用户信息
+#     """
+#     permission_classes = (permissions.IsAuthenticated,)
+#     def list(self, request, *args, **kwargs):
+#         data = {
+#             "username": self.request.user.username,
+#             "name": self.request.user.name,
+#         }
+#         return OpsResponse(data)

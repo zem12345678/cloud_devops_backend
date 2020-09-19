@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import Group
 from rbac.models import UserProfile,Organization
 from utils.basemodels import Basemodel
 from workflow.models import WorkOrder
@@ -45,7 +46,7 @@ class InceptionWorkOrder(Basemodel):
         (7, u'回滚中')
     )
     users = models.ManyToManyField(UserProfile)
-    group = models.ForeignKey(Organization, null=True, blank=True, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
     db = models.ForeignKey(DbConf, on_delete=models.CASCADE)
     work_order = models.OneToOneField(WorkOrder, on_delete=models.CASCADE)
     is_manual_review = models.BooleanField(default=False, verbose_name='有流程')

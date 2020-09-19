@@ -4,16 +4,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from utils.baseviews import ReturnFormatMixin, BaseView
+from utils.baseviews import ReturnFormatMixin, BaseView,DefaultPagination
 from .serializers import *
 from .models import *
 from utils.basemixins import AppellationMixins
-from .mixins import PromptMxins, ActionMxins
+from .mixins import ActionMxins,HandleData,DownloadBaseView
 from utils.permissions import AuthOrReadOnly
 from utils import inception
+from utils.basemixins import PromptMixin
 import re
 
-class InceptionMainView(PromptMxins, ActionMxins, BaseView):
+
+class InceptionMainView(PromptMixin, ActionMxins, BaseView):
     queryset =  InceptionWorkOrder.objects.all()
     serializer_class = InceptionSerializer
     permission_classes = [AuthOrReadOnly]
@@ -88,7 +90,7 @@ class InceptionMainView(PromptMxins, ActionMxins, BaseView):
         self.replace_remark(sqlobj)
         return Response(self.ret)
 
-class InceptionCheckView(PromptMxins, ActionMxins, BaseView):
+class InceptionCheckView(PromptMixin, ActionMxins, BaseView):
     queryset = InceptionWorkOrder.objects.all()
     forbidden_word_list = ['use ', 'drop ']
     action_type = '--enable-check'
@@ -140,3 +142,40 @@ class DbViewSet(BaseView):
     queryset = DbConf.objects.all()
     serializer_class = DbSerializer
     search_fields = ['name','host','port','user','password']
+
+
+# dashborad
+from rbac.serializers.organization_serializer import OrganizationSerializer
+class ChartViewSet(HandleData, BaseView):
+    '''
+        Dashboard 查询
+    '''
+    pagination_class = DefaultPagination
+    queryset = InceptionWorkOrder.objects.all()
+    serializer_user = UserSerializer
+    serializer_group = OrganizationSerializer
+    serializer_class = ListInceptionSerializer
+
+    def list(self, request, *args, **kwargs):
+        ret = ReturnFormatMixin.ret.get_ret()
+        ret['data']['user_info'] = self.get_user_info
+        ret['data']['count_data'] = self.get_count_data
+        ret['data']['sql_status_data'] = self.get_status_data
+        ret['data']['sql_trend_data'] = self.get_trend_data
+        ret['data']['sql_today_data'] = self.get_today_data
+        ret['data']['sql_type_data'] = self.get_type_data
+        return Response(ret)
+
+### media
+class SqlFileView(DownloadBaseView):
+    '''
+        文件下载
+    '''
+    model = InceptionWorkOrder
+
+    def get_content(self):
+        pk = self.kwargs.get('pk')
+        data_type = self.request.GET.get('data_type')
+        instance = self.model.objects.get(pk=pk)
+        content = getattr(instance, data_type)
+        return content

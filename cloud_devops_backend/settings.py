@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
     'two_factor',
     'djcelery',
+    'guardian',
     'import_export',
     'simple_history',
     'haystack',
@@ -82,9 +83,12 @@ INSTALLED_APPS = [
     'clouds',
     'salt',
     'release',
+    'projects',
     'servicetree',
     'task',
+    'ticket',
     'autotask',
+    'system',
     'workflow'
 ]
 
@@ -282,6 +286,7 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',#
         'rest_framework.authentication.SessionAuthentication',#
+
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
     # 自定义异常处理
@@ -323,6 +328,13 @@ CACHES = {
         }
     },
 }
+
+AUTHENTICATION_BACKENDS = (
+    'rest_framework.authentication.TokenAuthentication',
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+)
+
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
@@ -473,9 +485,18 @@ CELERYBEAT_SCHEDULE = {
         'options': {
             'queue': 'low',  # 指定要使用的队列
         }
+    },
+    'cron_task': {
+        'task': 'sqlmng.tasks.cron_task',
+        'schedule': crontab(),
     }
 }
 
+CELERY_BUSINESS_PARAMS = {
+    'username':'定时处理器',
+    'handle_type': 'execute',
+    'date_format': '%Y-%m-%d %H:%M'
+}
 
 ## K8S
 Token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTVreHZoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmN2I0NWI3Zi03ZGFhLTQ0YjktYTgwMi1iMTRjMzFjODRlYzAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.mEOC6RqNyriOnnrt2D7aePzvDXkUj0SqlneHVJe8fss_VD06t9bm7Z9kSkoPXulOIzXetfRl6hhlplZDxkleyha1Gw1X1HIP3gDmOX6paOhgQfK5o6uEYsk3i42sIyRAWCdpIRnkdXCLJgv13IyLQgYF_eRgjznNpPr-IKDKAM8dc53vMh1L6r0Mf-rVschuSP71fwaczMVLHN09LZpjCja836aSYqgsG6Xp9uwxtgM78-BbiGt2fKEVqPqb3oDHCrV-jxi70r4b-kYJE5zq_2VT832u-E4vSTeb89ciuqxcCVza6CfdTN-dN8u3ZN1yFXuvmgIEklh_hcSuPquYXQ"
@@ -744,3 +765,9 @@ LOGGING = {
 # }
 
 SIMPLEUI_HOME_TITLE = '百度一下你就知道'
+INCEPTION_SETTINGS = {
+    'file_path': '/etc/inc.cnf'
+}
+MEDIA = {
+    'sql_file_path': 'files/download/sql/handle_result/'
+}

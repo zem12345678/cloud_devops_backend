@@ -40,6 +40,14 @@ class UserModifySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("手机号码不合法")
         return mobile
 
+    # def update(self, instance, validated_data):
+    #     if validated_data.get("phone", None):
+    #         instance.phone = validated_data["phone"]
+    #     if validated_data.get("password", None):
+    #         instance.set_password(validated_data["password"])
+    #     instance.save()
+    #     return instance
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     '''
@@ -65,6 +73,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if UserProfile.objects.filter(mobile=mobile):
             raise serializers.ValidationError("手机号已经被注册")
         return mobile
+
+    # def create(self, validated_data):
+    #     validated_data["is_active"] = False
+    #     instance = UserProfile()
+    #     instance.username = validated_data["username"]
+    #     instance.name = validated_data["name"]
+    #     instance.phone = validated_data["phone"]
+    #     instance.email = validated_data["email"]
+    #     instance.is_active = True
+    #     instance.set_password(validated_data["password"])
+    #     instance.save()
+    #     return instance
 
 class UserInfoListSerializer(serializers.ModelSerializer):
     '''
