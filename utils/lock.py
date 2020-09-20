@@ -4,13 +4,13 @@ import time
 from django.conf import settings
 from utils.wrappers import catch_exception
 from cloud_devops_backend.settings import REDIS_HOST,REDIS_DB,REDIS_PORT,REDIS_PASSWORD
-# locals().update(settings.LOCK)
+locals().update(settings.LOCK)
 
 class RedisLock(object):
 
     pool = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, password=REDIS_PASSWORD)
     redis_client = redis.Redis(connection_pool=pool)
-    timeout = "20s"
+    timeout = 600
 
     @classmethod
     def delete_lock(cls, key):
