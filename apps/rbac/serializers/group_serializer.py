@@ -82,3 +82,19 @@ class UserGroupsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ("id", "username", "groups")
+
+
+# class Groupserializer(serializers.ModelSerializer):
+#     """
+#     group序列化类
+#     """
+#     def to_representation(self, instance):
+#         member = instance.user_set.count()
+#         ret = super(Groupserializer, self).to_representation(instance)
+#         ret["member"] = member
+#         return ret
+#
+#
+#     class Meta:
+#         model = Group
+#         fields = ("id", "name")

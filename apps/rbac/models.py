@@ -20,7 +20,14 @@ class Menu(models.Model):
     sort = models.IntegerField(null=True, blank=True, verbose_name="排序标记")
     component = models.CharField(max_length=200, null=True, blank=True, verbose_name="组件")
     pid = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="父菜单")
-
+    # groups = models.ManyToManyField(
+    #     Group,
+    #     verbose_name='groups',
+    #     blank=True,
+    #     related_name="menu_set",
+    #     related_query_name="menu",
+    #     help_text="所属组",
+    # )
     def __str__(self):
         return self.name
 
@@ -101,6 +108,11 @@ class UserProfile(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    # def get_view_permissions(self):
+    #     if self.is_superuser:
+    #         return Menu.objects.all()
+    #     return Menu.objects.filter(groups__in=self.groups.all())
 
 class PerAppName(models.Model):
     app_key = models.CharField("APPkey", max_length=64, null=False, unique=True, help_text="APPkey")
