@@ -333,6 +333,10 @@ AUTHENTICATION_BACKENDS = (
     'rest_framework.authentication.TokenAuthentication',
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
+    # 'social_core.backends.weibo.WeiboOAuth2',
+    # 'social_core.backends.qq.QQOAuth2',
+    # 'social_core.backends.weixin.WeixinOAuth2',
+
 )
 
 
@@ -433,8 +437,11 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 缓存过期时间
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15,
+    'DEFAULT_USE_CACHE': 'default',
 }
+
+
 
 djcelery.setup_loader()
 BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672/my_vhost'
@@ -515,12 +522,12 @@ EMAIL_HOST = "smtp.exmail.qq.com"
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = "1586346727@qq.com"
-EMAIL_HOST_PASSWORD = "zem@12345678"
+EMAIL_HOST_PASSWORD = "123456"
 EMAIL_FROM = "标题<1586346727@qq.com>"
 
 
 GITLAB_HTTP_URI = "http://192.168.222.132:8099"
-GITLAB_TOKEN = "G_kTyBbvWmWMBnsyE-9J"
+GITLAB_TOKEN = "J6iV5DJCMzwEst8X_NaM"
 
 JENKINS_URL = "http://192.168.222.132:8088"
 JENINS_TOKEN = "4acabbe799d8f59844878f8cb954df20"

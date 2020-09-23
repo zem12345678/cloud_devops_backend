@@ -5,7 +5,7 @@
 
 from django.contrib import admin
 # Register your models here.
-from .models import ApiHttpMethod, ApiPermission, ApiPermissionGroup,UserProfile
+from .models import ApiHttpMethod, ApiPermission, ApiPermissionGroup,UserProfile,Menu
 
 
 class ApiHttpMethodAdmin(admin.ModelAdmin):
@@ -90,7 +90,6 @@ class ApiPermissionGroupAdmin(admin.ModelAdmin):
 
     show_api_permissions.short_description = 'API权限详情'  # 设置表头
 
-
 class UserProfileAdmin(admin.ModelAdmin):
 
     search_fields = ('username', )
@@ -102,6 +101,19 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     # 根据你指定的日期相关的字段，为页面创建一个时间导航栏，可通过日期过滤对象。例如：
     date_hierarchy = 'date_joined'
+
+    empty_value_display = '-empty-'
+
+class MenuAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    list_display = ('path', 'name', 'is_show', 'is_frame','component','pid')
+    # exclude = ('birth_date',)
+
+    # 是否在列表下方显示actions的下拉框，默认为False。
+    actions_on_bottom = True
+
+    # 根据你指定的日期相关的字段，为页面创建一个时间导航栏，可通过日期过滤对象。例如：
+    # date_hierarchy = 'date_joined'
 
     empty_value_display = '-empty-'
 
@@ -125,3 +137,4 @@ admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(ApiPermission, ApiPermissionAdmin)
 admin.site.register(ApiHttpMethod, ApiHttpMethodAdmin)
 admin.site.register(ApiPermissionGroup, ApiPermissionGroupAdmin)
+admin.site.register(Menu,MenuAdmin)

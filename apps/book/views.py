@@ -16,7 +16,8 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
 # drf自带的权限管理方式
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework_extensions.cache.mixins import CacheResponseMixin,ListCacheResponseMixin,RetrieveCacheResponseMixin
+from rest_framework_extensions.cache.decorators import cache_response
 from .models import Book
 from .models import Author
 from .models import Publish
@@ -36,6 +37,7 @@ class PublishList(APIView):
 
     这两个方法有个共同的特点，不需要传入PK，故而共用一个url
     """
+    @cache_response()
     def get(self, request, *args, **kwargs):
         queryset = Publish.objects.all()
         publish_list = PublishSerializer(queryset, many=True)
@@ -70,6 +72,7 @@ class PublishDetail(APIView):
         except Publish.DoesNotExist:
             raise Http404
 
+    @cache_response()
     def get(self,request,*args,**kwargs):
         print(kwargs.get("pk"))
         pk = kwargs.get("pk")
@@ -116,6 +119,7 @@ class PublishGenericAPIView(GenericAPIView):
             queryset = queryset.filter(name__icontains=self.keyword)
         return queryset
 
+    @cache_response()
     def get(self, request, *args, **kwargs):
         # 群查
         pub_query = self.get_queryset()
@@ -137,6 +141,7 @@ class  PublishDetailGenericAPIView(GenericAPIView):
     # 权限判断,所有权限都满足才可以
     # pmission_classes = (IsAuthenticated)
 
+    @cache_response()
     def get(self, request, *args, **kwargs):
         print(self.get_object())
         publish = self.get_object()
@@ -160,13 +165,14 @@ class  PublishDetailGenericAPIView(GenericAPIView):
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView
 
-class PublishMixinGenericAPIView(mixins.ListModelMixin,
+class PublishMixinGenericAPIView(ListCacheResponseMixin,mixins.ListModelMixin,
                                  mixins.CreateModelMixin,
                                  GenericAPIView):
     queryset = Publish.objects.all()
     serializer_class = PublishSerializer
 
     # 群查
+    @cache_response()
     def get(self, request, *args, **kwargs):
         # list方法是继承mixins.ListModelMixin
         return self.list(request, *args, **kwargs)
@@ -177,7 +183,7 @@ class PublishMixinGenericAPIView(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class PublishDetailMixinGenericAPIView(mixins.RetrieveModelMixin,
+class PublishDetailMixinGenericAPIView(RetrieveCacheResponseMixin,mixins.RetrieveModelMixin,
                                        mixins.UpdateModelMixin,
                                        mixins.DestroyModelMixin,
                                        GenericAPIView):
@@ -203,14 +209,14 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView,
 # 上面五个类其实就完成了数据的增删改查，增删改查分为带PK和不带PK两类，索性下面两个方法就这个规则将五个类封装成两个，一次搞定
 from  rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 
-class PublishMixinAPIView(ListCreateAPIView):
+class PublishMixinAPIView(ListCacheResponseMixin,ListCreateAPIView):
     """
     ListCreateAPIView = CreateAPIView+ListAPIView+GenericAPIView
     """
     queryset = Publish.objects.all()
     serializer_class = PublishSerializer
 
-class PublishDetailMixinAPIView(RetrieveUpdateDestroyAPIView):
+class PublishDetailMixinAPIView(RetrieveCacheResponseMixin,RetrieveUpdateDestroyAPIView):
     """
     RetrieveUpdateDestroyAPIView = RetrieveAPIView+UpdateAPIView+DestroyAPIView+GenericAPIView
     """
@@ -221,7 +227,7 @@ class PublishDetailMixinAPIView(RetrieveUpdateDestroyAPIView):
 # 第五个版本,增删改查合并为一个视图集
 from rest_framework import viewsets
 from rest_framework import mixins
-class PublishViewSet(viewsets.ModelViewSet):
+class PublishViewSet(CacheResponseMixin,viewsets.ModelViewSet):
 # class PublishViewSet(viewsets.GenericViewSet,
 #                      mixins.CreateModelMixin,
 #                      mixins.ListModelMixin,
@@ -242,18 +248,18 @@ class PublishViewSet(viewsets.ModelViewSet):
 # 第六个版本viewset＋router,优化URL
 from rest_framework import viewsets
 
-class PublishViewSets(viewsets.ModelViewSet):
+class PublishViewSets(CacheResponseMixin,viewsets.ModelViewSet):
     queryset = Publish.objects.all()
     serializer_class = PublishSerializer
 
 
 # 序列化进阶 ModelSerializer+关系表
-class AuthorViewSets(viewsets.ModelViewSet):
+class AuthorViewSets(CacheResponseMixin,viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
 
-class BookViewSets(viewsets.ModelViewSet):
+class BookViewSets(CacheResponseMixin,viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
@@ -266,7 +272,8 @@ class Pagination(PageNumberPagination):
     max_page_size = 100
 
 
-class PublishViewSet(viewsets.ModelViewSet):
+
+class PublishViewSet(CacheResponseMixin,viewsets.ModelViewSet):
     """
     list:
       列出所有出版商
@@ -298,8 +305,7 @@ class PublishViewSet(viewsets.ModelViewSet):
     search_fields = ('name', 'city')
     ordering_fields = ('name',)
 
-
-class AuthorViewSet(viewsets.ModelViewSet):
+class AuthorViewSet(CacheResponseMixin,viewsets.ModelViewSet):
     """
     list:
       列出所有作者信息
@@ -326,8 +332,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     search_fields = ('name', 'email')
     ordering_fields = ('name',)
 
-
-class BookViewSet(viewsets.ModelViewSet):
+class BookViewSet(CacheResponseMixin,viewsets.ModelViewSet):
     """
     list:
       列出所有图书信息
