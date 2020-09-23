@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-from apps.base.models import BaseModel
-from apps.user.models import UserProfile
+from utils.basemodels import Basemodel
+from rbac.models import UserProfile
 from django_mysql.models import JSONField
 
 
@@ -12,7 +12,7 @@ def JSONFieldDefault():
 
 # 配置模板
 
-class BasicTicketTemplate(BaseModel):
+class BasicTicketTemplate(Basemodel):
     """
     基础信息
     """
@@ -43,7 +43,7 @@ class BasicTicketTemplate(BaseModel):
         verbose_name_plural = verbose_name
 
 
-class TicketDetail(BaseModel):
+class TicketDetail(Basemodel):
 
     CHOICE_TASK_STATUS = (
         (0, '申请'),

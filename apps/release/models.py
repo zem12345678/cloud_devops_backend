@@ -20,7 +20,6 @@ class Deploy(models.Model):
     console_output = models.TextField(default='', verbose_name='上线输出结果', help_text='jenkins控制台输出的结果')
     apply_time = models.DateTimeField(auto_now_add=True, verbose_name=u'申请时间')
     deploy_time = models.DateTimeField(auto_now=True, verbose_name=u'上线完成时间')
-    status1 = models.IntegerField(default=0, choices=STATUS, verbose_name='上线状态')
 
 
     def __str__(self):

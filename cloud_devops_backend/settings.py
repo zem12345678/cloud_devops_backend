@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
     'two_factor',
     'djcelery',
+    'guardian',
     'import_export',
     'simple_history',
     'haystack',
@@ -82,9 +83,13 @@ INSTALLED_APPS = [
     'clouds',
     'salt',
     'release',
+    'projects',
     'servicetree',
     'task',
+    'ticket',
     'autotask',
+    'system',
+    'workflow'
 ]
 
 GRAPHENE = {
@@ -247,8 +252,9 @@ DATABASE_APPS_MAPPING = {
     'salt':'default',
     'servicetree':'default',
     'task':'default',
-    'zabbix': 'zabbix',
-    'k8s':  'container',
+    'zabbix':'zabbix',
+    'k8s':'container',
+    'workflow':'default',
     'test':'test'
 
 }
@@ -280,6 +286,7 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',#
         'rest_framework.authentication.SessionAuthentication',#
+
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
     # 自定义异常处理
@@ -321,6 +328,17 @@ CACHES = {
         }
     },
 }
+
+AUTHENTICATION_BACKENDS = (
+    'rest_framework.authentication.TokenAuthentication',
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    # 'social_core.backends.weibo.WeiboOAuth2',
+    # 'social_core.backends.qq.QQOAuth2',
+    # 'social_core.backends.weixin.WeixinOAuth2',
+
+)
+
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
@@ -419,8 +437,11 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 缓存过期时间
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15,
+    'DEFAULT_USE_CACHE': 'default',
 }
+
+
 
 djcelery.setup_loader()
 BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672/my_vhost'
@@ -471,9 +492,26 @@ CELERYBEAT_SCHEDULE = {
         'options': {
             'queue': 'low',  # 指定要使用的队列
         }
+    },
+    'cron_task': {
+        'task': 'sqlmng.tasks.cron_task',
+        'schedule': crontab(),
     }
 }
 
+CELERY_BUSINESS_PARAMS = {
+    'username':'定时处理器',
+    'handle_type': 'execute',
+    'date_format': '%Y-%m-%d %H:%M'
+}
+#LOCK
+LOCK = {
+    'host': REDIS_HOST,
+    'port': REDIS_PORT,
+    'password': REDIS_PASSWORD,
+    'db': REDIS_DB,
+    'timeout':600
+}
 
 ## K8S
 Token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTVreHZoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmN2I0NWI3Zi03ZGFhLTQ0YjktYTgwMi1iMTRjMzFjODRlYzAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.mEOC6RqNyriOnnrt2D7aePzvDXkUj0SqlneHVJe8fss_VD06t9bm7Z9kSkoPXulOIzXetfRl6hhlplZDxkleyha1Gw1X1HIP3gDmOX6paOhgQfK5o6uEYsk3i42sIyRAWCdpIRnkdXCLJgv13IyLQgYF_eRgjznNpPr-IKDKAM8dc53vMh1L6r0Mf-rVschuSP71fwaczMVLHN09LZpjCja836aSYqgsG6Xp9uwxtgM78-BbiGt2fKEVqPqb3oDHCrV-jxi70r4b-kYJE5zq_2VT832u-E4vSTeb89ciuqxcCVza6CfdTN-dN8u3ZN1yFXuvmgIEklh_hcSuPquYXQ"
@@ -484,17 +522,17 @@ EMAIL_HOST = "smtp.exmail.qq.com"
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = "1586346727@qq.com"
-EMAIL_HOST_PASSWORD = "zem@12345678"
+EMAIL_HOST_PASSWORD = "123456"
 EMAIL_FROM = "标题<1586346727@qq.com>"
 
 
-GITLAB_HTTP_URI = "http://127.0.0.1/"
-GITLAB_TOKEN = "G_kTyBbvWmWMBnsyE-9J"
+GITLAB_HTTP_URI = "http://192.168.222.132:8099"
+GITLAB_TOKEN = "J6iV5DJCMzwEst8X_NaM"
 
-JENKINS_URL = "http://127.0.0.1:8088/"
-JENINS_TOKEN = "4dfcb7e9423a1c8733cddd595ddd9142"
+JENKINS_URL = "http://192.168.222.132:8088"
+JENINS_TOKEN = "4acabbe799d8f59844878f8cb954df20"
 JENKINS_USERNAME = 'admin'
-JENKINS_PASSWORD = 'zem@12345678'
+JENKINS_PASSWORD = '123456'
 
 
 # 支付宝相关的key路径
@@ -742,3 +780,9 @@ LOGGING = {
 # }
 
 SIMPLEUI_HOME_TITLE = '百度一下你就知道'
+INCEPTION_SETTINGS = {
+    'file_path': '/etc/inc.cnf'
+}
+MEDIA = {
+    'sql_file_path': 'files/download/sql/handle_result/'
+}

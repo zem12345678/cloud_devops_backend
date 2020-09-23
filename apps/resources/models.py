@@ -61,7 +61,6 @@ class Idc(models.Model):
         ordering = ["id"]
         app_label = 'resources'
 
-
 class Cabinet(models.Model):
     name            = models.CharField("机柜名称", max_length=50, help_text="机柜名称")
     power_supply    = models.IntegerField("电源功率", help_text="电源功率")
@@ -79,7 +78,6 @@ class Cabinet(models.Model):
         # )
         ordering = ["id"]
         app_label = 'resources'
-
 
 class Product(models.Model):
     service_name    = models.CharField("业务线名称", max_length=32, help_text="业务线名称")
@@ -100,7 +98,6 @@ class Product(models.Model):
         verbose_name_plural = verbose_name
         ordering = ["id"]
         app_label = 'resources'
-
 
 class Server(models.Model):
     manufacturer    = models.ForeignKey(Manufacturer, verbose_name="制造商", null=True, help_text="制造商",on_delete=models.CASCADE)

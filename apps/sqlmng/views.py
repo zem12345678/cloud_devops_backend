@@ -4,17 +4,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from utils.baseviews import ReturnFormatMixin, BaseView
+from utils.baseviews import ReturnFormatMixin, BaseView,DefaultPagination
 from .serializers import *
 from .models import *
 from utils.basemixins import AppellationMixins
-from .mixins import PromptMxins, ActionMxins
+from .mixins import ActionMxins,HandleData,DownloadBaseView
 from utils.permissions import AuthOrReadOnly
 from utils import inception
+from utils.basemixins import PromptMixin
 import re
 
-class InceptionMainView(PromptMxins, ActionMxins, BaseView):
-    queryset =  Inceptsql.objects.all()
+
+class InceptionMainView(PromptMixin, ActionMxins, BaseView):
+    queryset =  InceptionWorkOrder.objects.all()
     serializer_class = InceptionSerializer
     permission_classes = [AuthOrReadOnly]
     action_type = '--enable-execute'
@@ -22,12 +24,12 @@ class InceptionMainView(PromptMxins, ActionMxins, BaseView):
     def get_queryset(self):
         userobj = self.request.user
         if userobj.is_superuser:  # 管理员
-            return Inceptsql.objects.all()
-        return userobj.groups.first().inceptsql_set.all() if userobj.userprofile.role == self.dev_spm else userobj.inceptsql_set.all()
+            return InceptionWorkOrder.objects.all()
+        return userobj.groups.first().InceptionWorkOrder_set.all() if userobj.userprofile.role == self.dev_spm else userobj.InceptionWorkOrder_set.all()
 
     @action(detail=False)
     def execute(self, request, *args, **kwargs):
-        sqlobj = Inceptsql.objects.get(pk = kwargs.get('pk'))
+        sqlobj = InceptionWorkOrder.objects.get(pk = kwargs.get('pk'))
         # 执行SQL（防止同一个SQL被人已执行了，这边还没刷新 但点了执行，产生bug。执行前先检查status）
         if sqlobj.status != -1:
             self.ret = {'status': -2, 'msg':self.executed}
@@ -48,7 +50,7 @@ class InceptionMainView(PromptMxins, ActionMxins, BaseView):
             sqlobj.execute_errors = exception_sqls
             self.ret['status'] = -1
         sqlobj.rollback_opid = opids
-        sqlobj.exe_affected_rows = affected_rows
+        sqlobj.affected_rows = affected_rows
         self.ret['data']['affected_rows'] = affected_rows
         self.ret['data']['execute_time'] = '%.3f' % execute_time # 保留3位小数
         self.ret['msg'] = exception_sqls
@@ -58,14 +60,14 @@ class InceptionMainView(PromptMxins, ActionMxins, BaseView):
 
     @action(detail=False)
     def reject(self, request, *args, **kwargs):
-        sqlobj = Inceptsql.objects.get(pk = kwargs.get('pk'))
+        sqlobj = InceptionWorkOrder.objects.get(pk = kwargs.get('pk'))
         sqlobj.status = 1
         self.replace_remark(sqlobj)
         return Response(self.ret)
 
     @action(detail=False)
     def rollback(self, request, *args, **kwargs):
-        sqlobj = Inceptsql.objects.get(pk = kwargs.get('pk'))
+        sqlobj = InceptionWorkOrder.objects.get(pk = kwargs.get('pk'))
         dbobj = sqlobj.db
         rollback_opid_list = sqlobj.rollback_opid
         rollback_db = sqlobj.rollback_db  # 回滚库
@@ -88,8 +90,8 @@ class InceptionMainView(PromptMxins, ActionMxins, BaseView):
         self.replace_remark(sqlobj)
         return Response(self.ret)
 
-class InceptionCheckView(PromptMxins, ActionMxins, BaseView):
-    queryset = Inceptsql.objects.all()
+class InceptionCheckView(PromptMixin, ActionMxins, BaseView):
+    queryset = InceptionWorkOrder.objects.all()
     forbidden_word_list = ['use ', 'drop ']
     action_type = '--enable-check'
     serializer_class = InceptionSerializer
@@ -126,7 +128,7 @@ class SelectDataView(ReturnFormatMixin, AppellationMixins, APIView):
     def post(self, request):  # 前端切换环境时，返回相应的数据（执行人，数据库名）
         request_data = request.data
         env = request_data.get('env')
-        self.ret['data']['dbs'] = [model_to_dict(db, fields=['id', 'name']) for db in Dbconf.objects.filter(env = env)]
+        self.ret['data']['dbs'] = [model_to_dict(db, fields=['id', 'name']) for db in DbConf.objects.filter(env = env)]
         userobj = request.user
         if userobj.is_superuser or env == self.env_test or userobj.userprofile.role != self.dev:  # 超级用户 or 测试环境 or 除开发外，执行人是自己
             managers = [userobj.username]
@@ -137,6 +139,43 @@ class SelectDataView(ReturnFormatMixin, AppellationMixins, APIView):
         return Response(self.ret)
 
 class DbViewSet(BaseView):
-    queryset = Dbconf.objects.all()
+    queryset = DbConf.objects.all()
     serializer_class = DbSerializer
     search_fields = ['name','host','port','user','password']
+
+
+# dashborad
+from rbac.serializers.organization_serializer import OrganizationSerializer
+class ChartViewSet(HandleData, BaseView):
+    '''
+        Dashboard 查询
+    '''
+    pagination_class = DefaultPagination
+    queryset = InceptionWorkOrder.objects.all()
+    serializer_user = UserSerializer
+    serializer_group = OrganizationSerializer
+    serializer_class = ListInceptionSerializer
+
+    def list(self, request, *args, **kwargs):
+        ret = ReturnFormatMixin.ret.get_ret()
+        ret['data']['user_info'] = self.get_user_info
+        ret['data']['count_data'] = self.get_count_data
+        ret['data']['sql_status_data'] = self.get_status_data
+        ret['data']['sql_trend_data'] = self.get_trend_data
+        ret['data']['sql_today_data'] = self.get_today_data
+        ret['data']['sql_type_data'] = self.get_type_data
+        return Response(ret)
+
+### media
+class SqlFileView(DownloadBaseView):
+    '''
+        文件下载
+    '''
+    model = InceptionWorkOrder
+
+    def get_content(self):
+        pk = self.kwargs.get('pk')
+        data_type = self.request.GET.get('data_type')
+        instance = self.model.objects.get(pk=pk)
+        content = getattr(instance, data_type)
+        return content

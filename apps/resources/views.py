@@ -1,4 +1,5 @@
 from rest_framework import viewsets,mixins,permissions
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from .models import Manufacturer, ProductModel,Idc, Cabinet, Product, Server, NetworkDevice, IP
 from .serializers import ManufacturerSerializer, ProductModelSerializer, IdcSerializer, CabinetSerializer,\
     ProductSerializer,ServerSerializer, NetworkDeviceSerializer, IPSerializer, AutoReportSerializer
@@ -7,8 +8,7 @@ from .filter import ManufacturerFilter, ProductModelFilter,IdcFilter,CabinetFilt
 from cloud_devops_backend.code import *
 from cloud_devops_backend.basic import OpsResponse
 
-
-class ManufacturerViewset(viewsets.ModelViewSet):
+class ManufacturerViewset(CacheResponseMixin,viewsets.ModelViewSet):
     """
     retrieve:
     返回指定制造商信息
@@ -46,8 +46,7 @@ class ManufacturerViewset(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return OpsResponse(ret, status=OK)
 
-
-class ProductModelViewset(viewsets.ModelViewSet):
+class ProductModelViewset(CacheResponseMixin,viewsets.ModelViewSet):
     """
     retrieve:
     返回指定产品型号信息
@@ -72,8 +71,7 @@ class ProductModelViewset(viewsets.ModelViewSet):
     filter_class = ProductModelFilter
     filter_fields = ("model_name",)
 
-
-class IdcViewset(viewsets.ModelViewSet):
+class IdcViewset(CacheResponseMixin,viewsets.ModelViewSet):
     """
     list:
     返回idc列表
@@ -107,8 +105,7 @@ class IdcViewset(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return OpsResponse(ret, status=OK)
 
-
-class CabinetViewset(viewsets.ModelViewSet):
+class CabinetViewset(CacheResponseMixin,viewsets.ModelViewSet):
     """
     list:
     返回机柜列表
@@ -130,8 +127,7 @@ class CabinetViewset(viewsets.ModelViewSet):
     filter_class = CabinetFilter
     filter_fields = ("name", "idc")
 
-
-class ProductViewset(viewsets.ModelViewSet):
+class ProductViewset(CacheResponseMixin,viewsets.ModelViewSet):
     """
     retrieve:
     返回指定业务线信息
@@ -179,8 +175,7 @@ class ProductViewset(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return OpsResponse(ret, status=status.HTTP_200_OK)
 
-
-class ProductManageViewSet(mixins.ListModelMixin,
+class ProductManageViewSet(CacheResponseMixin,mixins.ListModelMixin,
                            viewsets.GenericViewSet):
     """
     list:
@@ -213,8 +208,7 @@ class ProductManageViewSet(mixins.ListModelMixin,
         node["pid"] = product_obj.pid
         return node
 
-
-class ServerViewset(viewsets.ReadOnlyModelViewSet, mixins.UpdateModelMixin):
+class ServerViewset(CacheResponseMixin,viewsets.ReadOnlyModelViewSet, mixins.UpdateModelMixin):
     """
     list:
     获取服务器列表
@@ -241,8 +235,7 @@ class ServerViewset(viewsets.ReadOnlyModelViewSet, mixins.UpdateModelMixin):
         queryset = queryset.order_by("id")
         return queryset
 
-
-class NetwokDeviceViewset(viewsets.ReadOnlyModelViewSet):
+class NetwokDeviceViewset(CacheResponseMixin,viewsets.ReadOnlyModelViewSet):
     """
     list:
     获取网卡列表
@@ -256,8 +249,7 @@ class NetwokDeviceViewset(viewsets.ReadOnlyModelViewSet):
     filter_class = NetworkDeviceFilter
     filter_fields = ("name",)
 
-
-class IPViewset(viewsets.ReadOnlyModelViewSet):
+class IPViewset(CacheResponseMixin,viewsets.ReadOnlyModelViewSet):
     """
     list:
     获取网卡IP列表
@@ -271,8 +263,7 @@ class IPViewset(viewsets.ReadOnlyModelViewSet):
     filter_class = IpFilter
     filter_fields = ("ip_addr",)
 
-
-class ServerAutoReportViewset(mixins.CreateModelMixin,
+class ServerAutoReportViewset(CacheResponseMixin,mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
     """
     agent采集的信息入库
@@ -281,8 +272,7 @@ class ServerAutoReportViewset(mixins.CreateModelMixin,
     serializer_class = AutoReportSerializer
     permission_classes = (permissions.AllowAny,)
 
-
-class ServerCountViewset(viewsets.ViewSet,mixins.ListModelMixin):
+class ServerCountViewset(CacheResponseMixin,viewsets.ViewSet,mixins.ListModelMixin):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Server.objects.all()
 

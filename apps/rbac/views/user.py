@@ -16,6 +16,9 @@ from cloud_devops_backend.basic import OpsResponse
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
+from rest_framework_extensions.cache.decorators import cache_response
+from rest_framework_extensions.cache.mixins import CacheResponseMixin,ListCacheResponseMixin,RetrieveCacheResponseMixin
 from django.contrib.auth import authenticate
 from rest_framework_jwt.settings import api_settings
 from rest_framework.permissions import IsAuthenticated
@@ -62,6 +65,7 @@ class UserInfoView(APIView):
         except AttributeError:
             return None
 
+    @cache_response()
     def get(self, request):
         if request.user.id is not None:
             perms = self.get_permission_from_role(request)
@@ -288,7 +292,7 @@ class UserBuildMenuView(APIView):
             return OpsResponse('请登录后访问!',status=FORBIDDEN)
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(CacheResponseMixin,ModelViewSet):
     '''
     用户管理：增删改查
     '''
@@ -301,7 +305,7 @@ class UserViewSet(ModelViewSet):
     filter_fields = ('is_active',)
     search_fields = ('username', 'name', 'mobile', 'email')
     ordering_fields = ('id',)
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (JSONWebTokenAuthentication,TokenAuthentication, BasicAuthentication, SessionAuthentication)
     permission_classes = (RbacPermission,)
 
     def get_serializer_class(self):
@@ -365,11 +369,82 @@ class UserViewSet(ModelViewSet):
             else:
                 return OpsResponse('旧密码错误!', status=status.HTTP_400_BAD_REQUEST)
 
-class UserListView(ListAPIView):
+class UserListView(ListCacheResponseMixin,ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserInfoListSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     filter_fields = ('name',)
     ordering_fields = ('id',)
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (JSONWebTokenAuthentication,TokenAuthentication,SessionAuthentication,BasicAuthentication)
     permission_classes = (IsAuthenticated,)
+
+
+# class UserInfoViewset(viewsets.ViewSet):
+#     """
+#     获取当前登陆的用户信息
+#     """
+#     permission_classes = (permissions.IsAuthenticated,)
+#     def list(self, request, *args, **kwargs):
+#         data = {
+#             "username": self.request.user.username,
+#             "name": self.request.user.name,
+#         }
+#         return OpsResponse(data)
+
+
+# class UserRegViewset(mixins.CreateModelMixin,
+#                      mixins.UpdateModelMixin,
+#                      viewsets.GenericViewSet):
+#     """
+#     create:
+#     创建用户
+#
+#     update:
+#     修改密码
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserRegSerializer
+#
+#
+# class UserInfoViewset(viewsets.ViewSet):
+#     """
+#     获取当前登陆的用户信息
+#     """
+#     permission_classes = (permissions.IsAuthenticated,)
+#
+#     def list(self, request, *args, **kwargs):
+#         data = {
+#             "username": self.request.user.username,
+#             "name": self.request.user.name,
+#             "menus": get_menu_tree(self.request.user.get_view_permissions())
+#         }
+#         return Response(data)
+#
+#
+# class UsersViewset(viewsets.ModelViewSet):
+#     """
+#     retrieve:
+#     获取用户信息
+#
+#     list:
+#     获取用户列表
+#
+#     update:
+#     更新用户信息
+#
+#     delete:
+#     删除用户
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     filter_class = UserFilter
+#     filter_fields = ("username",)
+#     extra_perms_map = {
+#         "GET": ["users.show_user_list"]
+#     }
+#
+#     def get_queryset(self):
+#         queryset = super(UsersViewset, self).get_queryset()
+#         queryset = queryset.order_by("id")
+#         queryset = queryset.exclude(is_superuser=True)
+#         return queryset

@@ -4,7 +4,9 @@ from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
 class ReturnFormatMixin(object):
-    ret = {'status': 0, 'msg': '', 'data': {}}
+    @classmethod
+    def get_ret(cls):
+        return {'status': 0, 'msg': '', 'data': {}}
 
 class DefaultPagination(PageNumberPagination):
     page_size = 10

@@ -35,7 +35,7 @@ from book.router import books_router
 from cmdb.router import cmdb_router
 from zabbix.router import zabbix_router
 from workorder.router import workorder_router
-from sqlmng.router import sqlmng_router
+#from sqlmng.router import sqlmng_router
 from resources.router import resources_router
 from clouds.router import clouds_router
 from release.router import deploy_router
@@ -51,7 +51,7 @@ router.registry.extend(books_router.registry)
 router.registry.extend(cmdb_router.registry)
 router.registry.extend(zabbix_router.registry)
 router.registry.extend(workorder_router.registry)
-router.registry.extend(sqlmng_router.registry)
+#router.registry.extend(sqlmng_router.registry)
 router.registry.extend(resources_router.registry)
 router.registry.extend(clouds_router.registry)
 router.registry.extend(deploy_router.registry)
@@ -64,6 +64,7 @@ urlpatterns = [
     path(r'', include('deployment.urls')),
     path(r'', include('rbac.urls')),
     path(r'', include('servicetree.urls')),
+    path('api/sqlmng/', include('sqlmng.urls')),
     path(r'', include(router.urls)),
     path(r'salt/', include('salt.urls')),
     path('xadmin/', xadmin.site.urls),
