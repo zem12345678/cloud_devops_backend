@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
-from .models import WorkOrder, Step
+from .models import Workflow, Step
 
 class WorkOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = WorkOrder
+        model = Workflow
         fields = '__all__'
 
 class StepSerializer(serializers.ModelSerializer):

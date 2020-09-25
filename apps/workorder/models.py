@@ -16,7 +16,7 @@ class WorkOrder(models.Model):
         (0, '申请'),
         (1, '处理中'),
         (2, '完成'),
-        (3, '失败'),
+        (3, '拒绝'),
     )
     title = models.CharField(max_length=100, verbose_name=u'工单标题')
     type = models.IntegerField(choices=TYPE, default=0, verbose_name=u'工单类型')

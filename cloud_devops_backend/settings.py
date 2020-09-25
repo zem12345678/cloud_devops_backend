@@ -86,7 +86,6 @@ INSTALLED_APPS = [
     'projects',
     'servicetree',
     'task',
-    'ticket',
     'autotask',
     'system',
     'workflow'
@@ -181,7 +180,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cloud_devops',
-        'HOST': '127.0.0.1',
+        'HOST': '101.132.235.226',
         'USER': 'root',
         'PASSWORD': '123456',
         'PORT': '3307',
@@ -192,7 +191,7 @@ DATABASES = {
         'NAME': 'zabbix',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
+        'HOST': '101.132.235.226',
         'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET default_storage_engine=INNODB;SET sql_mode='STRICT_TRANS_TABLES'"
@@ -203,7 +202,7 @@ DATABASES = {
         'NAME': 'container',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
+        'HOST': '101.132.235.226',
         'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET default_storage_engine=INNODB;SET sql_mode='STRICT_TRANS_TABLES'"
@@ -225,42 +224,42 @@ DATABASES = {
 
 }
 
-DATABASE_ROUTERS = ['cloud_devops_backend.database_router.DatabaseAppsRouter']
-DATABASE_APPS_MAPPING = {
-    # 'default': 'default',
-    'admin':'default',
-    'xadmin':'default',
-    'sessions':'default',
-    'contenttypes':'default',
-    'django_apscheduler':'default',
-    'otp_static':'default',
-    'otp_totp':'default',
-    'two_factor':'default',
-    'djcelery':'default',
-    'social_django':'default',
-    'auth':'default',
-    'book':'default',
-    'rbac':'default',
-    'cmdb':'default',
-    'clouds':'default',
-    'deployment':'default',
-    'resources':'default',
-    'workorder':'default',
-    'sqlmng':'default',
-    'release':'default',
-    'autotask':'default',
-    'salt':'default',
-    'servicetree':'default',
-    'task':'default',
-    'zabbix':'zabbix',
-    'k8s':'container',
-    'workflow':'default',
-    'test':'test'
+# DATABASE_ROUTERS = ['cloud_devops_backend.database_router.DatabaseAppsRouter']
+# DATABASE_APPS_MAPPING = {
+#     # 'default': 'default',
+#     'admin':'default',
+#     'xadmin':'default',
+#     'sessions':'default',
+#     'contenttypes':'default',
+#     'django_apscheduler':'default',
+#     'otp_static':'default',
+#     'otp_totp':'default',
+#     'two_factor':'default',
+#     'djcelery':'default',
+#     'social_django':'default',
+#     'auth':'default',
+#     'book':'default',
+#     'rbac':'default',
+#     'cmdb':'default',
+#     'clouds':'default',
+#     'deployment':'default',
+#     'resources':'default',
+#     'workorder':'default',
+#     'sqlmng':'default',
+#     'release':'default',
+#     'autotask':'default',
+#     'salt':'default',
+#     'servicetree':'default',
+#     'task':'default',
+#     'zabbix':'zabbix',
+#     'k8s':'container',
+#     'workflow':'default',
+#     'test':'test'
+#
+# }
 
-}
 
-
-connect('elk', host='127.0.0.1', port=21017, username='root',password='VgOK8WctTOEtM2')
+connect('elk', host='101.132.235.226', port=21017, username='root',password='VgOK8WctTOEtM2')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -305,7 +304,7 @@ REST_FRAMEWORK = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
+        "LOCATION": "redis://101.132.235.226:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": "VgOK8WctTOEtM2"
@@ -313,7 +312,7 @@ CACHES = {
     },
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
+        "LOCATION": "redis://101.132.235.226:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": "VgOK8WctTOEtM2"
@@ -321,7 +320,7 @@ CACHES = {
     },
     "scheduler": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/10",
+        "LOCATION": "redis://101.132.235.226:6379/10",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": "VgOK8WctTOEtM2"
@@ -347,7 +346,7 @@ ACCCESSKEYID = os.environ.get("ACCCESSKEYID", '')
 ACCESSSECRET = os.environ.get("ACCESSSECRET", '')
 
 # redis 设置
-REDIS_HOST = '127.0.0.1'
+REDIS_HOST = '101.132.235.226'
 REDIS_PORT = 6379
 REDIS_DB = 8
 REDIS_PASSWORD = 'VgOK8WctTOEtM2'
@@ -381,7 +380,7 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
         # 端口号固定为9200
-        'URL': 'http://127.0.0.1:9200/',
+        'URL': 'http://101.132.235.226:9200/',
         # 指定elasticsearch建立的索引库的名称
         'INDEX_NAME': 'cloud_devops',
         'TIME_OUT':60,
@@ -437,15 +436,15 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 缓存过期时间
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15,
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
     'DEFAULT_USE_CACHE': 'default',
 }
 
 
 
 djcelery.setup_loader()
-BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672/my_vhost'
-CELERY_RESULT_BACKEND = 'redis://:{}@127.0.0.1:6379/1'.format(REDIS_PASSWORD) # BACKEND配置，这里使用redis
+BROKER_URL = 'amqp://guest:guest@101.132.235.226:5672/my_vhost'
+CELERY_RESULT_BACKEND = 'redis://:{}@101.132.235.226:6379/1'.format(REDIS_PASSWORD) # BACKEND配置，这里使用redis
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERYCELERY_ACCEPT_CONTENT = ['pickle', 'json']
 CELERYD_CONCURRENCY = 8                                          # 并发worker数
@@ -529,9 +528,9 @@ EMAIL_FROM = "标题<1586346727@qq.com>"
 GITLAB_HTTP_URI = "http://192.168.222.132:8099"
 GITLAB_TOKEN = "J6iV5DJCMzwEst8X_NaM"
 
-JENKINS_URL = "http://192.168.222.132:8088"
-JENINS_TOKEN = "4acabbe799d8f59844878f8cb954df20"
-JENKINS_USERNAME = 'admin'
+JENKINS_URL = "http://101.132.235.226:8080/"
+JENINS_TOKEN = "110b9520e89769d66d87ea2be0c19479cc"
+JENKINS_USERNAME = 'zem'
 JENKINS_PASSWORD = '123456'
 
 

@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import Group
 from rbac.models import UserProfile,Organization
 from utils.basemodels import Basemodel
-from workflow.models import WorkOrder
+from workflow.models import Workflow
 # Create your models here.
 
 ENVS = (
@@ -48,7 +48,7 @@ class InceptionWorkOrder(Basemodel):
     users = models.ManyToManyField(UserProfile)
     group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
     db = models.ForeignKey(DbConf, on_delete=models.CASCADE)
-    work_order = models.OneToOneField(WorkOrder, on_delete=models.CASCADE)
+    work_order = models.OneToOneField(Workflow, on_delete=models.CASCADE)
     is_manual_review = models.BooleanField(default=False, verbose_name='有流程')
     commiter = models.CharField(max_length=64, null=True, blank=True)
     sql_content = models.TextField()
