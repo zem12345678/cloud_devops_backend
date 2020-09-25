@@ -224,39 +224,39 @@ DATABASES = {
 
 }
 
-# DATABASE_ROUTERS = ['cloud_devops_backend.database_router.DatabaseAppsRouter']
-# DATABASE_APPS_MAPPING = {
-#     # 'default': 'default',
-#     'admin':'default',
-#     'xadmin':'default',
-#     'sessions':'default',
-#     'contenttypes':'default',
-#     'django_apscheduler':'default',
-#     'otp_static':'default',
-#     'otp_totp':'default',
-#     'two_factor':'default',
-#     'djcelery':'default',
-#     'social_django':'default',
-#     'auth':'default',
-#     'book':'default',
-#     'rbac':'default',
-#     'cmdb':'default',
-#     'clouds':'default',
-#     'deployment':'default',
-#     'resources':'default',
-#     'workorder':'default',
-#     'sqlmng':'default',
-#     'release':'default',
-#     'autotask':'default',
-#     'salt':'default',
-#     'servicetree':'default',
-#     'task':'default',
-#     'zabbix':'zabbix',
-#     'k8s':'container',
-#     'workflow':'default',
-#     'test':'test'
-#
-# }
+DATABASE_ROUTERS = ['cloud_devops_backend.database_router.DatabaseAppsRouter']
+DATABASE_APPS_MAPPING = {
+    # 'default': 'default',
+    'admin':'default',
+    'xadmin':'default',
+    'sessions':'default',
+    'contenttypes':'default',
+    'django_apscheduler':'default',
+    'otp_static':'default',
+    'otp_totp':'default',
+    'two_factor':'default',
+    'djcelery':'default',
+    'social_django':'default',
+    'auth':'default',
+    'book':'default',
+    'rbac':'default',
+    'cmdb':'default',
+    'clouds':'default',
+    'deployment':'default',
+    'resources':'default',
+    'workorder':'default',
+    'sqlmng':'default',
+    'release':'default',
+    'autotask':'default',
+    'salt':'default',
+    'servicetree':'default',
+    'task':'default',
+    'zabbix':'zabbix',
+    'k8s':'container',
+    'workflow':'default',
+    'test':'test'
+
+}
 
 
 connect('elk', host='101.132.235.226', port=21017, username='root',password='VgOK8WctTOEtM2')
