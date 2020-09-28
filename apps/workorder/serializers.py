@@ -19,6 +19,13 @@ class WorkOrderSerializer(serializers.ModelSerializer):
         model = WorkOrder
         fields = "__all__"
 
+    def validate(self, attrs):
+        print("validate attrs: {}".format(attrs))
+        print(type(attrs['status']))
+        if attrs['status'] < 0:
+            raise serializers.ValidationError('工单状态异常.')
+        return attrs
+
     def to_representation(self, instance):
         applicant_obj = instance.applicant
         assign_to_obj = instance.assign_to

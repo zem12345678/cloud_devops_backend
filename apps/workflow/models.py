@@ -5,7 +5,7 @@ from utils.basemodels import Basemodel
 
 # Create your models here.
 
-class WorkOrder(Basemodel):
+class Workflow(Basemodel):
     status = models.BooleanField(default=False, verbose_name='审批状态')
     class Meta:
         app_label = 'workflow'
@@ -18,7 +18,7 @@ class Step(Basemodel):
         (2, u'驳回'),
         (3, u'放弃')
     )
-    work_order = models.ForeignKey(WorkOrder, on_delete=models.CASCADE)
+    work_order = models.ForeignKey(Workflow, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.CASCADE)
     status = models.IntegerField(default=0, choices=STATUS)
     class Meta:
