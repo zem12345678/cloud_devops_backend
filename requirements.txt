@@ -99,7 +99,7 @@ django-reversion==3.0.7
 django-simple-history==2.10.0
 django-simpleui==4.0.2
 django-two-factor-auth==1.12
-djangorestframework==3.10.1
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 dnspython==1.16.0
 docutils==0.14
