@@ -270,7 +270,7 @@ pycrypto==2.6.1
 pycryptodome==3.9.8
 pydocstyle==5.0.2
 pyflakes==2.2.0
-Pygments==2.2.0
+Pygments==2.7.4
 PyHamcrest==2.0.2
 PyJWT==1.7.1
 pylint==2.3.1
