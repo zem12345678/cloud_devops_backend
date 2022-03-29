@@ -234,7 +234,7 @@ opt-einsum==3.1.0
 packaging==17.1
 pandas==0.22.0
 pandocfilters==1.4.2
-paramiko==2.6.0
+paramiko==2.10.1
 paramiko-expect==0.2.8
 parso==0.7.0
 partd==0.3.8
