@@ -385,7 +385,7 @@ typed-ast==1.4.0
 typing==3.6.4
 typing-extensions==3.7.4.1
 tzlocal==2.1
-ujson==3.0.0
+ujson==5.2.0
 unicodecsv==0.14.1
 uritemplate==3.0.1
 urllib3==1.25.9
