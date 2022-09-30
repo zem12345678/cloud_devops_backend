@@ -170,7 +170,7 @@ jedi==0.17.1
 jeepney==0.4.3
 Jinja2==2.11.2
 jmespath==0.10.0
-joblib==0.16.0
+joblib==1.2.0
 jsonschema==2.6.0
 jupyter-client==6.1.6
 jupyter-core==4.6.3
